@@ -499,18 +499,23 @@ fn main() {
 
         state.clear_rows();
 
+        let old_background = pencil.background().clone();
         pencil.set_foreground(state.current_piece.piece_type.get_color());
+        pencil.set_background(state.current_piece.piece_type.get_color());
         for pos in &state.current_piece.tiles {
             if pos.y >= 0 {
                 pencil.draw_char('[', Vec2::xy(pos.x * 2, pos.y));
                 pencil.draw_char(']', Vec2::xy(pos.x * 2 + 1, pos.y));
             }
         }
+
         for tile in &state.tiles {
             pencil.set_foreground(tile.color);
+            pencil.set_background(tile.color);
             pencil.draw_char('[', Vec2::xy(tile.x * 2, tile.y));
             pencil.draw_char(']', Vec2::xy(tile.x * 2 + 1, tile.y));
         }
+        pencil.set_background(old_background);
 
         pencil.set_foreground(Color::Xterm(8));
         for y in 0..state.dimension.y + 3 {
